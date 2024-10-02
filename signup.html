@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Sign up for MatchMaker and find your perfect match through fun and engaging challenges.">
+    <title>MatchMaker - Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico">
+    <!-- Include any additional libraries for fancy features like animations -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
+
+<body>
+    <!-- Sign-Up Form -->
+    <section class="signup-section">
+        <div class="signup-container animate__animated animate__fadeInUp">
+            <h2>Let's Get Started!</h2>
+            <p>Join MatchMaker by filling in a few fun details. Let’s make your profile shine!</p>
+
+            <form action="/submit_signup" method="POST" id="signupForm">
+                <!-- User Basic Info -->
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Choose a unique username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Create a strong password"
+                        required>
+                </div>
+
+                <!-- Gender Selection -->
+                <div class="form-group">
+                    <label for="gender">I identify as:</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                        <option value="nonbinary">Non-binary</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Interests Selection -->
+                <div class="form-group">
+                    <label for="interests">What are you interested in?</label>
+                    <select id="interests" name="interests[]" multiple required>
+                        <option value="movies">Movies</option>
+                        <option value="music">Music</option>
+                        <option value="travel">Travel</option>
+                        <option value="sports">Sports</option>
+                        <option value="food">Food</option>
+                        <option value="art">Art</option>
+                    </select>
+                    <small>Select multiple interests by holding Ctrl (Windows) or Command (Mac).</small>
+                </div>
+
+                <!-- Personality Traits -->
+                <div class="form-group">
+                    <label for="personality">Describe yourself in three words:</label>
+                    <input type="text" id="personality" name="personality"
+                        placeholder="e.g., adventurous, creative, empathetic" required>
+                </div>
+
+                <!-- Fun Question Section (Personality Matching) -->
+                <div class="fun-questions">
+                    <h3>Let’s Make it Fun!</h3>
+                    <div class="form-group">
+                        <label for="ideal_date">What's your ideal date?</label>
+                        <input type="text" id="ideal_date" name="ideal_date"
+                            placeholder="A walk on the beach, dinner under the stars?" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="favorite_hobby">What's your favorite hobby?</label>
+                        <input type="text" id="favorite_hobby" name="favorite_hobby"
+                            placeholder="e.g., Painting, hiking, cooking" required>
+                    </div>
+                </div>
+
+                <!-- Image Upload (Profile Picture) -->
+                <div class="form-group">
+                    <label for="profile_picture">Upload Your Profile Picture</label>
+                    <input type="file" id="profile_picture" name="profile_picture" accept="image/*" required>
+                </div>
+
+                <!-- CAPTCHA Verification -->
+                <div class="form-group captcha-container">
+                    <label for="captcha">Complete this challenge to verify you're human</label>
+                    <div class="captcha-box">
+                        <img src="captcha-image.png" alt="CAPTCHA" id="captcha-img">
+                        <button type="button" onclick="reloadCaptcha()">Reload</button>
+                    </div>
+                    <input type="text" id="captcha" name="captcha" placeholder="Enter CAPTCHA" required>
+                </div>
+
+                <!-- Guidelines Agreement -->
+                <div class="form-group">
+                    <label for="guidelines">
+                        <input type="checkbox" id="guidelines" name="guidelines" required>
+                        I agree to the <a href="guidelines.html" target="_blank">community guidelines</a> and terms of
+                        service.
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <!--button type="submit" class="btn-primary">Sign Up</button-->
+                <form id="signupForm" onsubmit="processSignup(event)">
+                    <!-- Form fields from previous example -->
+                    <!-- ... all other fields like username, email, password, etc. -->
+                    
+
+                    <button type="submit" class="btn-primary">Sign Up</button>
+                </form>
+
+                <script>
+                    function processSignup(event) {
+                        event.preventDefault(); // Prevent form submission and page reload
+
+                        // Get user details from the form
+                        const username = document.getElementById('username').value;
+                        const email = document.getElementById('email').value;
+                        const gender = document.getElementById('gender').value;
+                        const interests = Array.from(document.getElementById('interests').selectedOptions).map(option => option.text);
+                        const personality = document.getElementById('personality').value;
+                        const idealDate = document.getElementById('ideal_date').value;
+                        const favoriteHobby = document.getElementById('favorite_hobby').value;
+
+                        // Store the data in localStorage (you can also store it in the backend via AJAX)
+                        const userData = {
+                            username,
+                            email,
+                            gender,
+                            interests,
+                            personality,
+                            idealDate,
+                            favoriteHobby
+                        };
+                        localStorage.setItem('userData', JSON.stringify(userData));
+
+                        // Redirect to the homepage
+                        window.location.href = "index.html";
+                    }
+                </script>
+
+            </form>
+        </div>
+    </section>
+
+    <!-- Custom JavaScript for CAPTCHA Reload -->
+    <script>
+        function reloadCaptcha() {
+            // Code to reload CAPTCHA
+            const captchaImg = document.getElementById('captcha-img');
+            captchaImg.src = 'new-captcha-image.jpg?' + new Date().getTime(); // Append timestamp to avoid caching
+        }
+    </script>
+</body>
+
+</html>
